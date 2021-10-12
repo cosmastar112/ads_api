@@ -11,6 +11,8 @@ class Ads extends Controller
 {
     public function create()
     {
+        header('Content-Type: application/json');
+
         //параметры запроса
         $text = $this->getPostBodyParam('text');
         $price = $this->getPostBodyParam('price');
