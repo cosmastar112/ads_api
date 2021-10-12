@@ -33,11 +33,10 @@ class Application
     {
         $controllerClass = ucfirst($request->routeController); /*сделать первый символ строки прописной*/
         $controllerClassWithNamespace = '\controllers\\' . $controllerClass;
-        $controllerAction = $request->routeAction;
         //вызвать обработчик маршрута (метод контроллера)
         include './../controllers/' . $controllerClass . '.php';
         $controller = new $controllerClassWithNamespace($request);
 
-        return $controller->$controllerAction();
+        return $controller->runAction($request->routeAction);
     }
 }
