@@ -18,6 +18,8 @@ class Router
         //Запрос
         $request = new Request();
 
+        //метод
+        $request->method = $_SERVER['REQUEST_METHOD'];
         //Поиск подстроки, представляющей маршрут
         $request->requestedRoute = $this->getRequestedRoute();
 
