@@ -8,8 +8,6 @@ class Router
 {
     private $_map;
 
-    public const HTTP_RESPONSE_STATUS_CODE_NOT_FOUND = 404;
-
     public function __construct($config)
     {
         $this->_map = $config;
@@ -25,11 +23,6 @@ class Router
 
         //Поиск реального маршрута
         [$request->routeController, $request->routeAction] = $this->navigate($request->requestedRoute);
-
-        //Если реальный маршрут не удалось определить, вернуть 404-ю ошибку
-        if (is_null($request->routeController)) {
-            $request->httpCode = self::HTTP_RESPONSE_STATUS_CODE_NOT_FOUND;
-        }
 
         return $request;
     }
