@@ -47,4 +47,29 @@ class Controller
 
         return $this->$action();
     }
+
+    public function getPostBody()
+    {
+        if ($this->request->method === 'POST') {
+            return urldecode(file_get_contents('php://input'));
+        }
+        return '';
+    }
+
+    public function getPostBodyParam($param)
+    {
+        $body = $this->getPostBody();
+
+        //разбить на части строку параметр=значение&параметр=значение на [параметр=значение, параметр=значение]
+        $parts = explode('&', $body);
+        foreach ($parts as $part) {
+            //разбить на части строку параметр=значение на [параметр, значение]
+            [$paramKey, $paramValue] = explode('=', $part);
+            if ($paramKey === $param) {
+                return $paramValue;
+            }
+        }
+
+        return NULL;
+    }
 }
