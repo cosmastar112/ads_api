@@ -60,6 +60,10 @@ class Controller
     {
         $body = $this->getPostBody();
 
+        if (empty($body)) {
+            return NULL;
+        }
+
         //разбить на части строку параметр=значение&параметр=значение на [параметр=значение, параметр=значение]
         $parts = explode('&', $body);
         foreach ($parts as $part) {
