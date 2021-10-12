@@ -36,7 +36,7 @@ class Application
         $controllerAction = $request->routeAction;
         //вызвать обработчик маршрута (метод контроллера)
         include './../controllers/' . $controllerClass . '.php';
-        $controller = new $controllerClassWithNamespace();
+        $controller = new $controllerClassWithNamespace($request);
 
         return $controller->$controllerAction();
     }
