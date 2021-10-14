@@ -100,8 +100,21 @@ class Ads extends Controller
     public function relevant()
     {
         $rep = new AdRep();
-        $model = $rep->get(1);
-
-        var_dump($model);
+        $model = $rep->getRelevant();
+        if ($model) {
+            return json_encode([
+                'message' => 'OK',
+                'code' => 200,
+                'data' => [
+                    'id' => $model['id'],
+                    'text' => $model['text'],
+                    'price' => $model['price'],
+                    'limit' => $model['limit'],
+                    'banner' => $model['banner'],
+                ]
+            ]);
+        } else {
+            //TODO: ошибка операции
+        }
     }
 }
