@@ -7,12 +7,15 @@ require_once 'Router.php';
 class Application
 {
     private $_router;
+    private static $_app;
 
     public const HTTP_RESPONSE_STATUS_CODE_NOT_FOUND = 404;
 
     public function __construct($config = [])
     {
         $this->_router = new Router($config['routerConfig']);
+        //сохранить ссылку на объект
+        self::$_app = $this;
     }
 
     public function run()
@@ -27,6 +30,12 @@ class Application
 
         echo $this->callContollerAction($request);
         // var_dump($request);
+    }
+
+    //доступ к объекту "Приложение"
+    public static function getApp()
+    {
+        return self::$_app;
     }
 
     private function callContollerAction($request)
