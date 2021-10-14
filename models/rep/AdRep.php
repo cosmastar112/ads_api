@@ -5,6 +5,7 @@ namespace models\rep;
 use app\IRepository;
 require_once './../app/IRepository.php';
 use PDO;
+use app\Application;
 
 class AdRep implements IRepository
 {
@@ -14,17 +15,10 @@ class AdRep implements IRepository
 
     public function get($id)
     {
-        $dbh = new PDO('mysql:host=localhost;dbname=ads', 'ad-api', 'password');
+        $st = Application::getApp()->getDb()->prepare('SELECT * FROM ad WHERE id = :id');
+        $st->execute([':id' => $id]);
 
-        $sth = $dbh->prepare('SELECT * FROM ad WHERE id = :id');
-        $sth->execute([':id' => $id]);
-
-        $row = $sth->fetch(PDO::FETCH_ASSOC);
-
-        $dbh = null;
-        $sth = null;
-
-        return $row;
+        return $st->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getRelevant()

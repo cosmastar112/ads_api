@@ -3,10 +3,12 @@
 namespace app;
 
 require_once 'Router.php';
+require_once 'Db.php';
 
 class Application
 {
     private $_router;
+    private $_db;
     private static $_app;
 
     public const HTTP_RESPONSE_STATUS_CODE_NOT_FOUND = 404;
@@ -14,6 +16,7 @@ class Application
     public function __construct($config = [])
     {
         $this->_router = new Router($config['routerConfig']);
+        $this->_db = new Db($config['dbConfig']);
         //сохранить ссылку на объект
         self::$_app = $this;
     }
@@ -36,6 +39,16 @@ class Application
     public static function getApp()
     {
         return self::$_app;
+    }
+
+    public function getDb()
+    {
+        return $this->_db->getInstance();
+    }
+
+    public function closeDbConnections()
+    {
+        $this->_db->closeInstance();
     }
 
     private function callContollerAction($request)
