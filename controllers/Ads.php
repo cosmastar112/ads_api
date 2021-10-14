@@ -35,21 +35,22 @@ class Ads extends Controller
             return json_encode($response);
         }
 
+        //создать модель в хранилище
         $rep = new AdRep();
-        $result = $rep->save($model);
-        var_dump($result);
-        //TODO: создать модель в хранилище
-        // $id
-        //ответ если все ОК
-        // return [
-        //     'message' => 'OK',
-        //     'code' => 200,
-        //     'data' => [
-        //         'id' => $id,
-        //         'text' => $text,
-        //         'banner' => $banner,
-        //     ]
-        // ];
+        if ($rep->save($model)) {
+            return json_encode([
+                'message' => 'OK',
+                'code' => 200,
+                'data' => [
+                    'text' => $text,
+                    'price' => $price,
+                    'limit' => $limit,
+                    'banner' => $banner,
+                ]
+            ]);
+        } else {
+            //TODO: ошибка операции
+        }
     }
 
     public function update()
@@ -77,22 +78,23 @@ class Ads extends Controller
             return json_encode($response);
         }
 
+        //обновить модель в хранилище
         $rep = new AdRep();
-        $result = $rep->save($model);
-        var_dump($result);
-
-        //TODO: обновить модель в хранилище
-        // $id
-        //ответ если все ОК
-        // return [
-        //     'message' => 'OK',
-        //     'code' => 200,
-        //     'data' => [
-        //         'id' => $id,
-        //         'text' => $text,
-        //         'banner' => $banner,
-        //     ]
-        // ];
+        if ($rep->save($model)) {
+            return json_encode([
+                'message' => 'OK',
+                'code' => 200,
+                'data' => [
+                    'id' => $id,
+                    'text' => $text,
+                    'price' => $price,
+                    'limit' => $limit,
+                    'banner' => $banner,
+                ]
+            ]);
+        } else {
+            //TODO: ошибка операции
+        }
     }
 
     public function relevant()
