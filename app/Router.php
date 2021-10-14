@@ -31,10 +31,6 @@ class Router
 
     private function getRequestedRoute()
     {
-        // return '/ads';
-        // return '/ads/1';
-        // return '/ads/relevant';
-        return '/ads/relevat';
         //убрать SCRIPT_NAME из REQUEST_URI; останется часть, которая представляет маршрут
         return str_replace($_SERVER['SCRIPT_NAME'] /*что искать*/, '' /*на что заменить*/, $_SERVER['REQUEST_URI']  /*где искать*/);
     }
