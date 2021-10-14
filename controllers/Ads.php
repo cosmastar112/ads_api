@@ -3,11 +3,11 @@
 namespace controllers;
 
 use app\Controller;
-require './../app/Controller.php';
+require_once './../app/Controller.php';
 use models\Ad;
-require './../models/Ad.php';
+require_once './../models/Ad.php';
 use models\rep\AdRep;
-require './../models/rep/AdRep.php';
+require_once './../models/rep/AdRep.php';
 
 class Ads extends Controller
 {

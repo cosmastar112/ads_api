@@ -2,7 +2,7 @@
 
 namespace app;
 
-require 'Request.php';
+require_once 'Request.php';
 
 class Router
 {

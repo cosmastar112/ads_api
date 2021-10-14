@@ -3,7 +3,7 @@
 namespace models\rep;
 
 use app\IRepository;
-require './../app/IRepository.php';
+require_once './../app/IRepository.php';
 use PDO;
 
 class AdRep implements IRepository

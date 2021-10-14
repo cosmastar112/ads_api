@@ -2,7 +2,7 @@
 
 // phpinfo();
 use app\Application;
-require './../app/Application.php';
+require_once './../app/Application.php';
 
 $routerConfig = require './../config/router.php';
 $config = [

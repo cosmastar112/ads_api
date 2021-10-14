@@ -2,7 +2,7 @@
 
 namespace app;
 
-require 'Router.php';
+require_once 'Router.php';
 
 class Application
 {
