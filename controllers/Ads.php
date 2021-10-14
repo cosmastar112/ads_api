@@ -77,6 +77,10 @@ class Ads extends Controller
             return json_encode($response);
         }
 
+        $rep = new AdRep();
+        $result = $rep->save($model);
+        var_dump($result);
+
         //TODO: обновить модель в хранилище
         // $id
         //ответ если все ОК
