@@ -6,6 +6,8 @@ use app\Controller;
 require './../app/Controller.php';
 use models\Ad;
 require './../models/Ad.php';
+use models\rep\AdRep;
+require './../models/rep/AdRep.php';
 
 class Ads extends Controller
 {
@@ -88,5 +90,9 @@ class Ads extends Controller
 
     public function relevant()
     {
+        $rep = new AdRep();
+        $model = $rep->get(1);
+
+        var_dump($model);
     }
 }
