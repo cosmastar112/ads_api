@@ -108,8 +108,6 @@ class Ads extends Controller
                 'data' => [
                     'id' => $model['id'],
                     'text' => $model['text'],
-                    'price' => $model['price'],
-                    'limit' => $model['limit'],
                     'banner' => $model['banner'],
                 ]
             ]);
