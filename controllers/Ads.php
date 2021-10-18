@@ -11,6 +11,16 @@ require_once './../models/rep/AdRep.php';
 
 class Ads extends Controller
 {
+    protected function allowedMethods()
+    {
+        //экшн => разрешенные методы (HTTP)
+        return [
+            'create' => ['POST'],
+            'update' => ['POST'],
+            'relevant' => ['GET'],
+        ];
+    }
+
     public function create()
     {
         header('Content-Type: application/json');

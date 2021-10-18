@@ -13,12 +13,7 @@ class Controller
 
     protected function allowedMethods()
     {
-        //экшн => разрешенные методы (HTTP)
-        return [
-            'create' => ['POST'],
-            'update' => ['POST'],
-            'relevant' => ['GET'],
-        ];
+        return [];
     }
 
     protected function filterMethod($func)
