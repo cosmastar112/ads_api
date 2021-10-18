@@ -99,6 +99,8 @@ class Ads extends Controller
 
     public function relevant()
     {
+        header('Content-Type: application/json');
+
         $rep = new AdRep();
         $model = $rep->getRelevant();
         if ($model) {
