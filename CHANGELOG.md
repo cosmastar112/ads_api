@@ -4,4 +4,4 @@
 * Релиз первой версии
 
 ## 29-10-2021
-* Для описания структуры БД ипользуется библиотека doctrine/migrations
+* Fix [#1](https://github.com/cosmastar112/ads_api/issues/1): Для описания структуры БД ипользуется библиотека doctrine/migrations
