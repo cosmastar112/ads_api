@@ -1,4 +1,0 @@
-//создать пользователя
-CREATE USER 'ad-api'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-//выдать ему права на БД
-GRANT ALL ON ads.* TO 'ad-api'@'localhost';

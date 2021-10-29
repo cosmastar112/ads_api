@@ -6,9 +6,11 @@
 ###	СУБД
 Использовалась СУБД MySQL 8.0.18.
 ###	БД
-В директории [db_structure](https://github.com/cosmastar112/ads_api/tree/master/db_structure) располагаются:
-* [скрипт](https://github.com/cosmastar112/ads_api/blob/master/db_structure/db.txt) создания БД (в нём, помимо создания БД, также создаётся таблица ad)
-* [скрипт](https://github.com/cosmastar112/ads_api/blob/master/db_structure/user.txt) для создания пользователя и выдачи ему прав.
+Используется библиотека миграций doctrine/migrations, конфигурируемая с помощью файлов:
+* [migrations.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations.php)
+* [migrations-db.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations-db.php)
+
+Миграции находятся в директории [migrations](https://github.com/cosmastar112/ads_api/tree/master/migrations).
 
 ## Описание проекта
 API состоит из элементов:
@@ -161,7 +163,6 @@ Content-Type: application/json
 * Использовать библиотеки для решения задачи (с помощью composer):
   * Роутер
   *	ORM для работы с БД
-  *	Библиотека для работы с миграциями БД
   *	Тестовый фреймворк
   *	Фреймворк для документирования
   *	Привести код к стандарту PSR-12
