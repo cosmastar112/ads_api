@@ -4,48 +4,30 @@ namespace app;
 
 class Controller
 {
-    public $request;
+    public $vars;
 
-    public function __construct($request)
+    public function __construct($vars)
     {
-        $this->request = $request;
-    }
-
-    protected function allowedMethods()
-    {
-        return [];
-    }
-
-    protected function filterMethod($func)
-    {
-        $allowedMethods = $this->allowedMethods();
-        if (isset($allowedMethods[$func])) {
-            if (in_array($this->request->method, $allowedMethods[$func])) {
-                return true;
-            }
-        } else {
-            //для экшена не установлены правила; следовательно, пропускать все запросы
-            return true;
-        }
-
-        return false;
+        $this->vars = $vars;
     }
 
     public function runAction($action)
     {
-        //фильтрация HTTP-метода
-        if(!$this->filterMethod($action)) {
-            http_response_code(405);
-            require('./../errors/405.html');
-            die();
+        return $this->$action();
+    }
+
+    public function getParam($key)
+    {
+        if (array_key_exists($key, $this->vars)) {
+            return $this->vars[$key];
         }
 
-        return $this->$action();
+        return null;
     }
 
     public function getPostBody()
     {
-        if ($this->request->method === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return urldecode(file_get_contents('php://input'));
         }
         return '';
