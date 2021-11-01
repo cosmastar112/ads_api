@@ -138,16 +138,15 @@ Content-Type: application/json
 * [router.php](https://github.com/cosmastar112/ads_api/blob/master/config/router.php) для [Роутера](https://github.com/cosmastar112/ads_api/blob/master/app/Router.php)
 * [db.php](https://github.com/cosmastar112/ads_api/blob/master/config/db.php) для объекта, который отвечает за [соединение с БД](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php)
 
-Для обработки запроса Приложение использует Роутер. Задача роутера – определить, существует ли реальный маршрут путём сопоставления запрашиваемого маршрута с доступными маршрутами, перечисленными в конфиге роутера. 
-Если маршрут определить не удалось, будет возвращена [ошибка 404](https://github.com/cosmastar112/ads_api/blob/master/errors/404.html). Если маршрут существует, то определяется пара «контроллер/экшен», где контроллер – имя объекта, а экшен – его метод, который отвечает за обработку маршрута. 
-Результат работы роутера – объект [Запрос](https://github.com/cosmastar112/ads_api/blob/master/app/Request.php) со свойствами «контроллер» и «экшен».
+Для обработки запроса Приложение использует Роутер. Задача роутера – определить, существует ли реальный маршрут путём сопоставления запрашиваемого маршрута с доступными маршрутами, перечисленными в конфиге роутера. Для маршрутизации используется библиотека [FastRoute](https://github.com/nikic/FastRoute).
 
-Все контроллеры располагаются в директории [controllers](https://github.com/cosmastar112/ads_api/tree/master/controllers) и должны наследоваться от [базового класса](https://github.com/cosmastar112/ads_api/blob/master/app/Controller.php). 
-Приложение возвращает результат работы метода объекта, для чего оно использует метод [runAction](https://github.com/cosmastar112/ads_api/blob/master/app/Controller.php#L34) класса Controller. 
-В методе runAction перед запуском обработчика выполняется фильтрация HTTP-метода. Конфигурация фильтра задается в конкретном экземпляре контроллера (в методе [allowedMethods](https://github.com/cosmastar112/ads_api/blob/master/controllers/Ads.php#L14)). 
+Если маршрут определить не удалось, будет возвращена [ошибка 404](https://github.com/cosmastar112/ads_api/blob/master/errors/404.html).
 Если метод не поддерживается, будет возвращена [ошибка 405](https://github.com/cosmastar112/ads_api/blob/master/errors/405.html).
+Если маршрут существует и указан верный HTTP-метод, создается объект контроллера и вызывается нужный метод (экшен).
 
-В экшене ([создание](https://github.com/cosmastar112/ads_api/blob/master/controllers/Ads.php#L24), [редактирование](https://github.com/cosmastar112/ads_api/blob/master/controllers/Ads.php#L66), [открутка](https://github.com/cosmastar112/ads_api/blob/master/controllers/Ads.php#L110)), в зависимости от элемента, контроллера осуществляется:
+Все контроллеры располагаются в директории [controllers](https://github.com/cosmastar112/ads_api/tree/master/controllers) и должны наследоваться от [базового класса](https://github.com/cosmastar112/ads_api/blob/master/app/Controller.php). Приложение возвращает результат работы метода объекта.
+
+В экшене (создание, редактирование, открутка), в зависимости от элемента, контроллера осуществляется:
 * доступ к параметрам запроса (если они есть)
 * валидация параметров (если они есть)
 * выполнение операции
@@ -156,12 +155,11 @@ Content-Type: application/json
 Для валидации используется [модель](https://github.com/cosmastar112/ads_api/blob/master/models/Ad.php), которая располагается в директории [models](https://github.com/cosmastar112/ads_api/tree/master/models).
 В случае ошибки валидации будет возвращена ошибка 400.
 Для выполнения операции используется [другой объект](https://github.com/cosmastar112/ads_api/blob/master/models/rep/AdRep.php), в котором инкапсулирована работа с БД (паттерн Репозиторий). Для этого объект реализует [интерфейс](https://github.com/cosmastar112/ads_api/blob/master/app/IRepository.php).
-Для работы с БД используется объект [Db](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php) – обёртка над [PDO](https://www.php.net/manual/en/book.pdo.php). Соединение с БД открывается один раз при создании Приложения; доступ к нему предоставляется с помощью метода [getDb](https://github.com/cosmastar112/ads_api/blob/master/app/Application.php#L44). 
-В свою очередь, для использования приложения предназначен статический метод [Application::getApp()](https://github.com/cosmastar112/ads_api/blob/master/app/Application.php#L39), который возвращает ссылку на экземпляр Приложения, которая сохраняется при его создании.
+Для работы с БД используется объект [Db](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php) – обёртка над [PDO](https://www.php.net/manual/en/book.pdo.php). Соединение с БД открывается один раз при создании Приложения; доступ к нему предоставляется с помощью метода getDb. 
+В свою очередь, для использования приложения предназначен статический метод Application::getApp(), который возвращает ссылку на экземпляр Приложения, которая сохраняется при его создании.
 
 ## Развитие (TODO)
 * Использовать библиотеки для решения задачи (с помощью composer):
-  * Роутер
   *	ORM для работы с БД
   *	Тестовый фреймворк
   *	Фреймворк для документирования
