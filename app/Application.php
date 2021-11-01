@@ -2,6 +2,8 @@
 
 namespace app;
 
+use FastRoute;
+
 require_once 'Router.php';
 require_once 'Db.php';
 
@@ -23,16 +25,27 @@ class Application
 
     public function run()
     {
-        $request = $this->_router->parseRequest();
-        //Если реальный маршрут не удалось определить, вернуть 404-ю ошибку
-        if (is_null($request->routeController)) {
-            http_response_code(self::HTTP_RESPONSE_STATUS_CODE_NOT_FOUND);
-            require('./../errors/404.html');
-            die();
+        $routeInfo = $this->_router->getRouteInfo();
+
+        switch ($routeInfo[0]) {
+            case FastRoute\Dispatcher::NOT_FOUND:
+                http_response_code(self::HTTP_RESPONSE_STATUS_CODE_NOT_FOUND);
+                require './../errors/404.html';
+                break;
+            case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+                $allowedMethods = $routeInfo[1];
+                // TODO: вывести список доступных методов
+                http_response_code(405);
+                require './../errors/405.html';
+                break;
+            case FastRoute\Dispatcher::FOUND:
+                $handler = $routeInfo[1];
+                $vars = $routeInfo[2];
+                echo $this->callContollerAction($handler, $vars);
+                break;
         }
 
-        echo $this->callContollerAction($request);
-        // var_dump($request);
+        die();
     }
 
     //доступ к объекту "Приложение"
@@ -51,14 +64,17 @@ class Application
         $this->_db->closeInstance();
     }
 
-    private function callContollerAction($request)
+    private function callContollerAction($handler, $vars)
     {
-        $controllerClass = ucfirst($request->routeController); /*сделать первый символ строки прописной*/
+        //извлечь наименование контроллера и экшена
+        [$controller, $action] = explode('/', $handler);
+        //создать объект контроллера и вызвать метод (экшен)
+        $controllerClass = ucfirst($controller); /*сделать первый символ строки прописной*/
         $controllerClassWithNamespace = '\controllers\\' . $controllerClass;
         //вызвать обработчик маршрута (метод контроллера)
         include './../controllers/' . $controllerClass . '.php';
-        $controller = new $controllerClassWithNamespace($request);
+        $controller = new $controllerClassWithNamespace($vars);
 
-        return $controller->runAction($request->routeAction);
+        return $controller->runAction($action);
     }
 }

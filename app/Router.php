@@ -2,31 +2,27 @@
 
 namespace app;
 
-require_once 'Request.php';
+use FastRoute;
 
 class Router
 {
-    private $_map;
+    private $_config;
 
     public function __construct($config)
     {
-        $this->_map = $config;
+        $this->_config = $config;
     }
 
-    public function parseRequest()
+    public function getRouteInfo()
     {
-        //Запрос
-        $request = new Request();
-
         //метод
-        $request->method = $_SERVER['REQUEST_METHOD'];
-        //Поиск подстроки, представляющей маршрут
-        $request->requestedRoute = $this->getRequestedRoute();
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        //запрашиваемый маршрут (убрать SCRIPT_NAME из REQUEST_URI; останется часть, которая представляет маршрут)
+        $uri = $this->getRequestedRoute();
 
-        //Поиск реального маршрута
-        [$request->routeController, $request->routeAction] = $this->navigate($request->requestedRoute);
+        $dispatcher = $this->getDispatcher();
 
-        return $request;
+        return $dispatcher->dispatch($httpMethod, $uri);
     }
 
     private function getRequestedRoute()
@@ -35,19 +31,23 @@ class Router
         return str_replace($_SERVER['SCRIPT_NAME'] /*что искать*/, '' /*на что заменить*/, $_SERVER['REQUEST_URI']  /*где искать*/);
     }
 
-    private function navigate($requestedRoute)
+    private function getDispatcher()
     {
-        for($i = 0; $i < count($this->_map); $i++) {
-            $mapItem = $this->_map[$i];
-            $routePattern = $mapItem['p'];
-            $realRoute = $mapItem['r'];
-            if (preg_match($routePattern, $requestedRoute) === 1) {
-                //шаблон подошёл
-                return explode('/', $realRoute);
+        $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+            foreach($this->_config as $configGroup => $configGroupElements) {
+                $r->addGroup($configGroup, $this->createGroupCallback($configGroupElements));
             }
-        }
+        });
 
-        //не удалось определить маршрут
-        return [null, null];
+        return $dispatcher;
+    }
+
+    function createGroupCallback($configGroupElements)
+    {
+        return function(FastRoute\RouteCollector $r) use ($configGroupElements) {
+            foreach($configGroupElements as $groupElement) {
+                $r->addRoute($groupElement[0], $groupElement[1], $groupElement[2]);
+            }
+        };
     }
 }
