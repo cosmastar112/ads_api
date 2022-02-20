@@ -14,5 +14,9 @@
             "models\\": "models/",
             "controllers\\": "controllers/"
         }
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-asserts": "^2.0"
     }
 }
