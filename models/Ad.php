@@ -55,7 +55,7 @@ class Ad
     public function validateUpdate()
     {
         if (empty($this->id)) {
-            array_push($this->id, 'Invalid id');
+            array_push($this->errors, 'Invalid id');
         }
 
         if (empty($this->text) || !is_string($this->text)) {
