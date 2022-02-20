@@ -3,11 +3,22 @@
 namespace controllers;
 
 use app\Controller;
+use app\Application;
 use models\Ad;
 use models\rep\AdRep;
 
 class Ads extends Controller
 {
+    public $db;
+
+    public function getDb()
+    {
+        if (!is_object($this->db)) {
+            $this->db = Application::getApp()->getDb();
+        }
+        return $this->db;
+    }
+
     public function create()
     {
         header('Content-Type: application/json');
@@ -33,7 +44,7 @@ class Ads extends Controller
         }
 
         //создать модель в хранилище
-        $rep = new AdRep();
+        $rep = new AdRep($this->getDb());
         if ($rep->save($model)) {
             return json_encode([
                 'message' => 'OK',
@@ -76,7 +87,7 @@ class Ads extends Controller
         }
 
         //обновить модель в хранилище
-        $rep = new AdRep();
+        $rep = new AdRep($this->getDb());
         if ($rep->save($model)) {
             return json_encode([
                 'message' => 'OK',
@@ -98,7 +109,7 @@ class Ads extends Controller
     {
         header('Content-Type: application/json');
 
-        $rep = new AdRep();
+        $rep = new AdRep($this->getDb());
         $model = $rep->getRelevant();
         if ($model) {
             return json_encode([

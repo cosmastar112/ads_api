@@ -4,20 +4,29 @@ namespace models\rep;
 
 use app\IRepository;
 use PDO;
-use app\Application;
 
 class AdRep implements IRepository
 {
+    public $db;
+
+    public function __construct($db)
+    {
+        $this->db = $db;
+        if (!is_object($this->db)) {
+            throw new \Exception('Не задан объект подключения к БД');
+        }
+    }
+
     public function save($model)
     {
         //если id записи не указан
         if (is_null($model->id)) {
             //создать запись
-            $st = Application::getApp()->getDb()->prepare('INSERT INTO ad(`text`, price, `limit`, banner) VALUES(:text, :price, :limit, :banner)');
+            $st = $this->db->prepare('INSERT INTO ad(`text`, price, `limit`, banner) VALUES(:text, :price, :limit, :banner)');
             $result = $st->execute([':text' => $model->text, ':price' => $model->price, ':limit' => $model->limit, ':banner' => $model->banner]);
         } else {
             //обновить запись
-            $st = Application::getApp()->getDb()->prepare('UPDATE ad SET `text` = :text, price = :price, `limit` = :limit, banner = :banner WHERE id = :id');
+            $st = $this->db->prepare('UPDATE ad SET `text` = :text, price = :price, `limit` = :limit, banner = :banner WHERE id = :id');
             $result = $st->execute([':text' => $model->text, ':price' => $model->price, ':limit' => $model->limit, ':banner' => $model->banner, ':id' => $model->id]);
         }
 
@@ -31,7 +40,7 @@ class AdRep implements IRepository
 
     public function get($id)
     {
-        $st = Application::getApp()->getDb()->prepare('SELECT * FROM ad WHERE id = :id');
+        $st = $this->db->prepare('SELECT * FROM ad WHERE id = :id');
         $st->execute([':id' => $id]);
 
         return $st->fetch(PDO::FETCH_ASSOC);
@@ -40,7 +49,7 @@ class AdRep implements IRepository
     public function getRelevant()
     {
         //выбрать записи с максимальной ценой (загрузить только id)
-        $st = Application::getApp()->getDb()->query('SELECT id FROM ad WHERE price = (SELECT MAX(price) FROM ad WHERE `limit` > 0)');
+        $st = $this->db->query('SELECT id FROM ad WHERE price = (SELECT MAX(price) FROM ad WHERE `limit` > 0)');
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
 
         if ($rows) {
@@ -61,7 +70,7 @@ class AdRep implements IRepository
     private function _decrementLimit($id)
     {
         //обновить запись
-        $st = Application::getApp()->getDb()->prepare('UPDATE ad SET `limit` = `limit` - 1 WHERE id = :id');
+        $st = $this->db->prepare('UPDATE ad SET `limit` = `limit` - 1 WHERE id = :id');
         $result = $st->execute([':id' => $id]);
 
         //если количество затронутых строк больше нуля, то считать операцию успешной
