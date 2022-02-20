@@ -3,7 +3,6 @@
 namespace models\rep;
 
 use app\IRepository;
-require_once './../app/IRepository.php';
 use PDO;
 use app\Application;
 

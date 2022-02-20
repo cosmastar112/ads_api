@@ -7,5 +7,12 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/",
+            "models\\": "models/",
+            "controllers\\": "controllers/"
+        }
     }
 }
