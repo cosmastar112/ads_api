@@ -8,3 +8,9 @@ actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=localhost;dbname=ads-test'
+            user: 'ad-api'
+            password: 'password'
