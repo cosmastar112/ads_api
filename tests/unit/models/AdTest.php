@@ -23,17 +23,13 @@ class AdTest extends \Codeception\Test\Unit
         //параметр запроса text обязательный
         $text = null;
         $model = new Ad(null, $text, null, null, null);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid text', $model->getFirstError());
 
         //параметр запроса text должен быть строкой
         $text = 1;
         $model = new Ad(null, $text, null, null, null);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid text', $model->getFirstError());
 
 
@@ -41,18 +37,14 @@ class AdTest extends \Codeception\Test\Unit
         $text = '1';
         $price = null;
         $model = new Ad(null, $text, $price, null, null);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid price', $model->getFirstError());
 
         //параметр запроса price должен быть числом или строкой, содержащей число
         $text = '1';
         $price = 'ss';
         $model = new Ad(null, $text, $price, null, null);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid price', $model->getFirstError());
 
 
@@ -61,9 +53,7 @@ class AdTest extends \Codeception\Test\Unit
         $price = '1';
         $limit = null;
         $model = new Ad(null, $text, $price, $limit, null);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid limit', $model->getFirstError());
 
         //параметр запроса limit должен быть числом или строкой, содержащей число
@@ -71,9 +61,7 @@ class AdTest extends \Codeception\Test\Unit
         $price = '1';
         $limit = 's';
         $model = new Ad(null, $text, $price, $limit, null);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid limit', $model->getFirstError());
 
 
@@ -83,9 +71,7 @@ class AdTest extends \Codeception\Test\Unit
         $limit = '1';
         $banner = null;
         $model = new Ad(null, $text, $price, $limit, $banner);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid banner link', $model->getFirstError());
 
         //параметр запроса banner должен строкой
@@ -94,9 +80,7 @@ class AdTest extends \Codeception\Test\Unit
         $limit = '1';
         $banner = 1;
         $model = new Ad(null, $text, $price, $limit, $banner);
-        //валидация
         $model->validate('create');
-        //первая ошибка валидации
         $this->assertSame('Invalid banner link', $model->getFirstError());
     }
 
@@ -105,26 +89,20 @@ class AdTest extends \Codeception\Test\Unit
         //параметр запроса id обязательный
         $id = null;
         $model = new Ad($id, null, null, null, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid id', $model->getFirstError());
 
         //параметр запроса text обязательный
         $id = 1;
         $text = null;
         $model = new Ad($id, $text, null, null, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid text', $model->getFirstError());
 
         //параметр запроса text должен быть строкой
         $text = 1;
         $model = new Ad($id, $text, null, null, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid text', $model->getFirstError());
 
 
@@ -132,18 +110,14 @@ class AdTest extends \Codeception\Test\Unit
         $text = '1';
         $price = null;
         $model = new Ad($id, $text, $price, null, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid price', $model->getFirstError());
 
         //параметр запроса price должен быть числом или строкой, содержащей число
         $text = '1';
         $price = 'ss';
         $model = new Ad($id, $text, $price, null, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid price', $model->getFirstError());
 
 
@@ -152,9 +126,7 @@ class AdTest extends \Codeception\Test\Unit
         $price = '1';
         $limit = null;
         $model = new Ad($id, $text, $price, $limit, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid limit', $model->getFirstError());
 
         //параметр запроса limit должен быть числом или строкой, содержащей число
@@ -162,9 +134,7 @@ class AdTest extends \Codeception\Test\Unit
         $price = '1';
         $limit = 's';
         $model = new Ad($id, $text, $price, $limit, null);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid limit', $model->getFirstError());
 
 
@@ -174,9 +144,7 @@ class AdTest extends \Codeception\Test\Unit
         $limit = '1';
         $banner = null;
         $model = new Ad($id, $text, $price, $limit, $banner);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid banner link', $model->getFirstError());
 
         //параметр запроса banner должен строкой
@@ -185,9 +153,7 @@ class AdTest extends \Codeception\Test\Unit
         $limit = '1';
         $banner = 1;
         $model = new Ad($id, $text, $price, $limit, $banner);
-        //валидация
         $model->validate('update');
-        //первая ошибка валидации
         $this->assertSame('Invalid banner link', $model->getFirstError());
     }
 }
