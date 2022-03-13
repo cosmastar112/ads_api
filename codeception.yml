@@ -11,6 +11,6 @@ extensions:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=localhost;dbname=ads-test'
-            user: 'ad-api'
-            password: 'password'
+            dsn: 'sqlite:./db/ads-test.db'
+            user: ''
+            password: ''

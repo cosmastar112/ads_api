@@ -1,9 +1,6 @@
 <?php
 
 return [
-    'dbname' => 'ads-test',
-    'user' => 'ad-api',
-    'password' => 'password',
-    'host' => 'localhost',
-    'driver' => 'pdo_mysql',
+    'driver' => 'pdo_sqlite',
+    'path' => __DIR__ . '.\..\db\ads-test.db',
 ];
