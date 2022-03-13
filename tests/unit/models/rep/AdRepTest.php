@@ -73,9 +73,9 @@ class AdRepTest extends \Codeception\Test\Unit
         $result = $rep->getRelevant();
         $this->assertIsArray($result);
         $this->assertArrayHasKey('id', $result);
-        $this->assertEquals($result['id'], 2); //запись с максимальной ценой
+        $this->assertEquals(2, $result['id']); //запись с максимальной ценой
         $this->assertArrayHasKey('limit', $result);
-        $this->assertEquals($result['limit'], 4); //после показа счетчик уменьшится на 1
+        $this->assertEquals(4, $result['limit']); //после показа счетчик уменьшится на 1
     }
 
     public function testGetRelevantIfZeroLimit()
