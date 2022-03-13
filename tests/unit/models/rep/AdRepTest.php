@@ -4,17 +4,37 @@ namespace tests\unit\models\rep;
 
 use models\rep\AdRep;
 use models\Ad;
+use PDO;
 
 class AdRepTest extends \Codeception\Test\Unit
 {
     protected function setUp(): void
     {
-        $this->getDb()->query('DELETE FROM ad; ALTER TABLE ad AUTO_INCREMENT = 1;');
+        $pdo = $this->getDb();
+
+        $pdo->query('DELETE FROM ad');
+        $pdoDriverName = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        if ($pdoDriverName === 'sqlite') {
+            //sqlite
+            $pdo->query('DELETE FROM sqlite_sequence WHERE name=\'ad\'');
+        } else  if ($pdoDriverName === 'mysql') {
+            //mysql
+            $pdo->query('DELETE FROM ad; ALTER TABLE ad AUTO_INCREMENT = 1;');
+        }
     }
 
     protected function tearDown(): void
     {
-       $this->getDb()->query('DELETE FROM ad; ALTER TABLE ad AUTO_INCREMENT = 1;');
+        $pdo = $this->getDb();
+
+        $pdoDriverName = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        if ($pdoDriverName === 'sqlite') {
+            //sqlite
+            $pdo->query('DELETE FROM sqlite_sequence WHERE name=\'ad\'');
+        } else if ($pdoDriverName === 'mysql') {
+            //mysql
+            $pdo->query('DELETE FROM ad; ALTER TABLE ad AUTO_INCREMENT = 1;');
+        }
     }
 
     public function testSave()
