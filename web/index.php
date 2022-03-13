@@ -5,7 +5,9 @@ require './../vendor/autoload.php';
 use app\Application;
 
 $routerConfig = require './../config/router.php';
-$dbConfig = require './../config/db.php';
+$dbConfig = require './../config/db-mysql.php';
+//тестовая БД
+//$dbConfig = require './../config/db-sqlite.php';
 $config = [
     'routerConfig' => $routerConfig,
     'dbConfig' => $dbConfig,
