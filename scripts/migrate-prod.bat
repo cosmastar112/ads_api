@@ -1,0 +1,1 @@
+%~dp0\..\vendor\bin\doctrine-migrations migrate --configuration=%~dp0\..\config\migrations.php --db-configuration=%~dp0\..\config\migrations-db.php
