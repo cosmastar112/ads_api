@@ -8,3 +8,9 @@ actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+modules:
+    config:
+        Db:
+            dsn: 'sqlite:./db/ads-test.db'
+            user: ''
+            password: ''

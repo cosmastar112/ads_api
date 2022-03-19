@@ -3,12 +3,59 @@
 ## Инструкция по разворачиванию проекта
 ### PHP
 Использовался PHP 7.2.25.
-###	СУБД
-Использовалась СУБД MySQL 8.0.18.
-###	БД
+
+### СУБД
+В качестве рабочей БД по умолчанию используется [MySQL](https://github.com/cosmastar112/ads_api/blob/master/config/db-mysql.php), а для тестов – [SQLite](https://github.com/cosmastar112/ads_api/blob/master/config/db-sqlite.php).
+
+#### Рабочая БД (MySQL)
+
+_Примечание 1: используется СУБД MySQL 8.0.18._
+
+_Примечание 2: используются данные из конфига [config/db-mysql.php](https://github.com/cosmastar112/ads_api/blob/master/config/db-mysql.php)_
+
+Выполнить шаги:
+* Создать БД «ads»
+~~~
+CREATE SCHEMA `ads` ;
+~~~
+* Создать пользователя «ad-api» (в БД «ads»), выдать ему права на БД «ads»
+~~~
+CREATE USER 'ad-api'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL ON ads.* TO 'ad-api'@'localhost';
+~~~
+* Применить миграции для БД «ads»
+~~~
+php <Директория проекта>\scripts\migrate-prod
+~~~
+или
+~~~
+cd /d <Директория проекта>
+scripts\migrate-prod.bat
+подтвердить запуск миграций (WARNING библиотеки миграций)
+~~~
+
+#### Тестовая БД (SQLite)
+_Примечание 1: используется СУБД SQLite 3.37.2 2022-01-06 13:25:41_
+
+_Примечание 2: используется данные из конфига [config/db-sqlite.php](https://github.com/cosmastar112/ads_api/blob/master/config/db-sqlite.php)_
+
+* Создать БД и применить миграции для «ads-test»
+~~~
+php <Директория проекта>\scripts\migrate-test
+~~~
+или
+~~~
+cd /d <Директория проекта>
+scripts\migrate-test.bat
+~~~
+В результате в директории db появится файл БД ads-test.db. На существование файла БД [полагается модуль DB](https://github.com/cosmastar112/ads_api/blob/master/codeception.yml#L13) тестового фреймворка codeception.
+Для интерактивного взаимодействия с БД можно использовать [cmd-утилиту](https://github.com/cosmastar112/ads_api/blob/master/db/bin/sqlite3.exe).
+
+###	Миграции
 Используется библиотека миграций doctrine/migrations, конфигурируемая с помощью файлов:
 * [migrations.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations.php)
 * [migrations-db.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations-db.php)
+* [migrations-db-test.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations-db-test.php)
 
 Миграции находятся в директории [migrations](https://github.com/cosmastar112/ads_api/tree/master/migrations).
 
@@ -136,7 +183,7 @@ Content-Type: application/json
 В нём создаётся экземпляр [приложения](https://github.com/cosmastar112/ads_api/blob/master/app/Application.php), который управляет обработкой запроса. 
 Для настройки приложения используются конфиг-файлы, расположенные в директории [config](https://github.com/cosmastar112/ads_api/tree/master/config):
 * [router.php](https://github.com/cosmastar112/ads_api/blob/master/config/router.php) для [Роутера](https://github.com/cosmastar112/ads_api/blob/master/app/Router.php)
-* [db.php](https://github.com/cosmastar112/ads_api/blob/master/config/db.php) для объекта, который отвечает за [соединение с БД](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php)
+* [db-mysql.php](https://github.com/cosmastar112/ads_api/blob/master/config/db-mysql.php) (или [db-sqlite.php](https://github.com/cosmastar112/ads_api/blob/master/config/db-sqlite.php)) для объекта, который отвечает за [соединение с БД](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php)
 
 Для обработки запроса Приложение использует Роутер. Задача роутера – определить, существует ли реальный маршрут путём сопоставления запрашиваемого маршрута с доступными маршрутами, перечисленными в конфиге роутера. Для маршрутизации используется библиотека [FastRoute](https://github.com/nikic/FastRoute).
 
@@ -155,7 +202,7 @@ Content-Type: application/json
 Для валидации используется [модель](https://github.com/cosmastar112/ads_api/blob/master/models/Ad.php), которая располагается в директории [models](https://github.com/cosmastar112/ads_api/tree/master/models).
 В случае ошибки валидации будет возвращена ошибка 400.
 Для выполнения операции используется [другой объект](https://github.com/cosmastar112/ads_api/blob/master/models/rep/AdRep.php), в котором инкапсулирована работа с БД (паттерн Репозиторий). Для этого объект реализует [интерфейс](https://github.com/cosmastar112/ads_api/blob/master/app/IRepository.php).
-Для работы с БД используется объект [Db](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php) – обёртка над [PDO](https://www.php.net/manual/en/book.pdo.php). Соединение с БД открывается один раз при создании Приложения; доступ к нему предоставляется с помощью метода getDb. 
+Для работы с БД используется объект [Db](https://github.com/cosmastar112/ads_api/blob/master/app/Db.php) – обёртка над [PDO](https://www.php.net/manual/en/book.pdo.php). Обёртка обеспечивает работу с СУБД MySQL и SQLite. Соединение с БД открывается один раз при создании Приложения; доступ к нему предоставляется с помощью метода getDb.
 В свою очередь, для использования приложения предназначен статический метод Application::getApp(), который возвращает ссылку на экземпляр Приложения, которая сохраняется при его создании.
 
 ## Развитие (TODO)
