@@ -4,6 +4,9 @@
 ### PHP
 Использовался PHP 7.2.25.
 
+#### Расширения
+* [fileinfo](https://www.php.net/manual/ru/book.fileinfo.php) - для работы модуля создания документации phpDocumentor
+
 ### СУБД
 В качестве рабочей БД по умолчанию используется [MySQL](https://github.com/cosmastar112/ads_api/blob/master/config/db-mysql.php), а для тестов – [SQLite](https://github.com/cosmastar112/ads_api/blob/master/config/db-sqlite.php).
 
@@ -58,6 +61,10 @@ scripts\migrate-test.bat
 * [migrations-db-test.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations-db-test.php)
 
 Миграции находятся в директории [migrations](https://github.com/cosmastar112/ads_api/tree/master/migrations).
+
+### Документация
+
+Для создания документации используется библиотека [phpDocumentor](https://docs.phpdoc.org/3.0/guide/getting-started/installing.html) v3.3.0. Запуск осуществляется с помощью [скрипта](https://github.com/cosmastar112/ads_api/tree/master/scripts/doc.bat). Результатом является HTML-документация в директории [docs/phpdoc](https://github.com/cosmastar112/ads_api/tree/master/docs/phpdoc).
 
 ## Описание проекта
 API состоит из элементов:
@@ -208,7 +215,6 @@ Content-Type: application/json
 ## Развитие (TODO)
 * Использовать библиотеки для решения задачи (с помощью composer):
   *	ORM для работы с БД
-  *	Фреймворк для документирования
   *	Привести код к стандарту PSR-12
 * Задокументировать код
 * Написать тесты (как минимум, модульные)
