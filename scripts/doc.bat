@@ -1,0 +1,1 @@
+php %~dp0\..\docs\bin\phpDocumentor.phar -d %~dp0\..\app\ -d %~dp0\..\controllers\ -d %~dp0\..\models\ -t %~dp0\..\docs\phpdoc
