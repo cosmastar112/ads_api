@@ -7,10 +7,20 @@ use app\Application;
 use models\Ad;
 use models\rep\AdRep;
 
+/**
+ * Контроллер рекламы (объявлений)
+*/
 class Ads extends Controller
 {
+    /**
+     * @var \PDO Экземпляр БД
+     * @link https://www.php.net/manual/ru/book.pdo.php
+     */
     public $db;
 
+    /**
+     * @return \PDO Экземпляр БД.
+     */
     public function getDb()
     {
         if (!is_object($this->db)) {
@@ -19,20 +29,28 @@ class Ads extends Controller
         return $this->db;
     }
 
+    /**
+     * Создать рекламу (объявление)
+     * @return string
+     */
     public function create()
     {
         header('Content-Type: application/json');
 
-        //параметры запроса
+        /** @var string|null Описание. */
         $text = $this->getPostBodyParam('text');
+        /** @var int|string|null Цена объявления. */
         $price = $this->getPostBodyParam('price');
+        /** @var int|string|null Кол-во показов. */
         $limit = $this->getPostBodyParam('limit');
+        /** @var string|null URL-адрес баннера (картинки). */
         $banner = $this->getPostBodyParam('banner');
 
+        /** @var \models\Ad Модель. */
         $model = new Ad(null, $text, $price, $limit, $banner);
         //валидация
         if (!$model->validate('create')) {
-            //первая ошибка валидации
+            /** @var null|string Первая ошибка валидации */
             $firstError = $model->getFirstError();
             $response = [
                 'message' => $firstError,
@@ -43,7 +61,7 @@ class Ads extends Controller
             return json_encode($response);
         }
 
-        //создать модель в хранилище
+        /** @var \models\rep\AdRep Репозиторий рекламы. */
         $rep = new AdRep($this->getDb());
         if ($rep->save($model)) {
             return json_encode([
@@ -61,21 +79,30 @@ class Ads extends Controller
         }
     }
 
+    /**
+     * Изменить рекламу (объявление)
+     * @return string
+     */
     public function update()
     {
         header('Content-Type: application/json');
 
-        //параметры запроса
+        /** @var int|null Идентификатор. */
         $id = $this->getParam('id');
+        /** @var string|null Описание. */
         $text = $this->getPostBodyParam('text');
+        /** @var int|string|null Цена объявления. */
         $price = $this->getPostBodyParam('price');
+        /** @var int|string|null Кол-во показов. */
         $limit = $this->getPostBodyParam('limit');
+        /** @var string|null URL-адрес баннера (картинки). */
         $banner = $this->getPostBodyParam('banner');
 
+        /** @var \models\Ad Модель. */
         $model = new Ad($id, $text, $price, $limit, $banner);
-        // //валидация
+        //валидация
         if (!$model->validate('update')) {
-            //первая ошибка валидации
+            /** @var null|string Первая ошибка валидации */
             $firstError = $model->getFirstError();
             $response = [
                 'message' => $firstError,
@@ -86,7 +113,7 @@ class Ads extends Controller
             return json_encode($response);
         }
 
-        //обновить модель в хранилище
+        /** @var \models\rep\AdRep Репозиторий рекламы. */
         $rep = new AdRep($this->getDb());
         if ($rep->save($model)) {
             return json_encode([
@@ -105,11 +132,17 @@ class Ads extends Controller
         }
     }
 
+    /**
+     * Выбрать рекламу (объявление) для показа
+     * @return string
+     */
     public function relevant()
     {
         header('Content-Type: application/json');
 
+        /** @var \models\rep\AdRep Репозиторий рекламы. */
         $rep = new AdRep($this->getDb());
+        /** @var array|false Выбранная для показа модель рекламы. */
         $model = $rep->getRelevant();
         if ($model) {
             return json_encode([
