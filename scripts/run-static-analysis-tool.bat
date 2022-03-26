@@ -1,1 +1,1 @@
-%~dp0\..\vendor\bin\psalm
+%~dp0\..\vendor\bin\psalm --show-info=true
