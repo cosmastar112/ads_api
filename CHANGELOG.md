@@ -1,6 +1,6 @@
 # История изменений Тестовое задание API Рекламы (ads_api)
 ## 0.5.0 (В разработке)
-* В этом релизе пока нет изменений
+* Enc [#15](https://github.com/cosmastar112/ads_api/issues/15): Документирование кода (phpDocumentor)
 
 ## 0.4.0 (19-03-2022)
 * Enc [#7](https://github.com/cosmastar112/ads_api/issues/7): Документация: скрипт создания пользователя БД (MySQL)

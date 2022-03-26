@@ -2,15 +2,37 @@
 
 namespace models;
 
+/**
+ * Модель рекламы (объявления)
+ */
 class Ad
 {
+    /** @var null|int Идентификатор. Должен быть null при сохранении, но обязателен при обновлении. */
     public $id;
+
+    /** @var string Описание. */
     public $text;
+
+    /** @var int|string Цена объявления. */
     public $price;
+
+    /** @var int|string Кол-во показов. */
     public $limit;
+
+    /** @var string URL-адрес баннера (картинки). */
     public $banner;
+
+    /** @var array Ошибки валидации. */
     public $errors = [];
 
+    /**
+     *
+     * @param null|int $id
+     * @param string $text
+     * @param int|string $price
+     * @param int|string $limit
+     * @param string $banner
+     */
     public function __construct($id, $text, $price, $limit, $banner)
     {
         $this->id = $id;
@@ -20,8 +42,14 @@ class Ad
         $this->banner = $banner;
     }
 
+    /**
+     * Валидировать модель.
+     * @param string $validationCase Сценарий валидации.
+     * @return boolean Если валидация пройдена, возвращается true, иначе false.
+     */
     public function validate($validationCase)
     {
+        /** @var string $methodName Название метода, который нужно вызвать для валидации; совпадает со сценарием валидации. */
         $methodName = 'validate' . $validationCase;
         $this->$methodName();
 
@@ -33,6 +61,12 @@ class Ad
         return true;
     }
 
+    /**
+     * Валидация создания объявления.
+     * В случае появления ошибки добавляет её в {@see \models\Ad::$errors}.
+     *
+     * @return void
+     */
     public function validateCreate()
     {
         if (empty($this->text) || !is_string($this->text)) {
@@ -52,6 +86,13 @@ class Ad
         }
     }
 
+    /**
+     * Валидация обновления объявления.
+     * В случае появления ошибки добавляет её в {@see \models\Ad::$errors}.
+     *
+     * @see \models\Ad::validateCreate()
+     * @return void
+     */
     public function validateUpdate()
     {
         if (empty($this->id)) {
@@ -62,6 +103,10 @@ class Ad
         $this->validateCreate();
     }
 
+    /**
+     * Вернуть первую ошибку валидации.
+     * @return null|string Текстовое представление ошибки (если есть).
+     */
     public function getFirstError()
     {
         if (count($this->errors) > 0) {
