@@ -57,7 +57,7 @@ class Controller
 
     /**
      * Параметр тела POST-запроса.
-     * @param string Наименование параметра.
+     * @param string $param Наименование параметра.
      * @return string|null Декодированная строка
      */
     public function getPostBodyParam($param)
