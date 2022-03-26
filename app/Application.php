@@ -106,6 +106,7 @@ class Application
      * @param string $handler Маршрут (контроллер/экшен).
      * @param array $vars Параметры запроса.
      * @return string
+     * @throws \Exception Если файл контроллера не существует.
      */
     private function callContollerAction($handler, $vars)
     {
@@ -119,12 +120,17 @@ class Application
         $controllerClass = ucfirst($controller); /*сделать первый символ строки прописной*/
         /** @var string $controllerClassWithNamespace Наименование класса контроллера, включая пространство имён. */
         $controllerClassWithNamespace = '\controllers\\' . $controllerClass;
-        //вызвать обработчик маршрута (метод контроллера)
-        include './../controllers/' . $controllerClass . '.php';
+        $controllerClassFileName = './../controllers/' . $controllerClass . '.php';
+        if (file_exists($controllerClassFileName)) {
+            //подключить файл контроллера
+            include $controllerClassFileName;
+            /** @var \app\Controller $controller Объект указанного класса контроллера. */
+            $controller = new $controllerClassWithNamespace($vars);
 
-        /** @var \app\Controller $controller Объект указанного класса контроллера. */
-        $controller = new $controllerClassWithNamespace($vars);
-
-        return $controller->runAction($action);
+            //вызвать обработчик маршрута (метод контроллера)
+            return $controller->runAction($action);
+        } else {
+            throw new \Exception("Не удалось загрузить файл контроллера: {$controllerClassFileName}");
+        }
     }
 }
