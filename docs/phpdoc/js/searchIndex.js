@@ -151,11 +151,6 @@ Search.appendIndex(
             "summary": "\u0412\u044B\u0431\u0440\u0430\u0442\u044C\u0020\u0440\u0435\u043A\u043B\u0430\u043C\u0443\u0020\u0028\u043E\u0431\u044A\u044F\u0432\u043B\u0435\u043D\u0438\u0435\u0029\u0020\u0434\u043B\u044F\u0020\u043F\u043E\u043A\u0430\u0437\u0430",
             "url": "classes/controllers-Ads.html#method_relevant"
         },                {
-            "fqsen": "\\controllers\\Ads\u003A\u003A\u0024db",
-            "name": "db",
-            "summary": "",
-            "url": "classes/controllers-Ads.html#property_db"
-        },                {
             "fqsen": "\\models\\Ad",
             "name": "Ad",
             "summary": "\u041C\u043E\u0434\u0435\u043B\u044C\u0020\u0440\u0435\u043A\u043B\u0430\u043C\u044B\u0020\u0028\u043E\u0431\u044A\u044F\u0432\u043B\u0435\u043D\u0438\u044F\u0029",
