@@ -125,10 +125,10 @@ class Application
             //подключить файл контроллера
             include $controllerClassFileName;
             /** @var \app\Controller $controller Объект указанного класса контроллера. */
-            $controller = new $controllerClassWithNamespace($vars);
+            $controllerObject = new $controllerClassWithNamespace($vars);
 
             //вызвать обработчик маршрута (метод контроллера)
-            return $controller->runAction($action);
+            return $controllerObject->runAction($action);
         } else {
             throw new \Exception("Не удалось загрузить файл контроллера: {$controllerClassFileName}");
         }
