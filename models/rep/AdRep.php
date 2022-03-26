@@ -94,14 +94,16 @@ class AdRep implements IRepository
             if ($rows) {
                 /** @var array $ids Массив id записей */
                 $ids = array_column($rows, 'id');
-                /** @var int|string $id Иидентификатор случайного элемента */
-                $id = $ids[array_rand($ids, 1) /*array_rand возвращает ключ*/];
+                if (count($ids) > 0) {
+                    /** @var int|string $id Иидентификатор случайного элемента */
+                    $id = $ids[array_rand($ids, 1) /*array_rand возвращает ключ*/];
 
-                //уменьшить limit на 1 (т.к. баннер был показан)
-                //TODO: нет уверенности, уменьшился ли счётчик показа
-                $this->_decrementLimit($id);
+                    //уменьшить limit на 1 (т.к. баннер был показан)
+                    //TODO: нет уверенности, уменьшился ли счётчик показа
+                    $this->_decrementLimit($id);
 
-                return $this->get($id);
+                    return $this->get($id);
+                }
             }
         }
 
