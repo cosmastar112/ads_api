@@ -15,7 +15,7 @@ class AdRep implements IRepository
     /**
      *
      * @param \PDO $db Экземпляр БД
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($db)
     {
