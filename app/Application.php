@@ -62,7 +62,7 @@ class Application
                 require './../errors/405.html';
                 break;
             case FastRoute\Dispatcher::FOUND:
-                /** @var array $handler Маршрут (контроллер/экшен). */
+                /** @var string $handler Маршрут (контроллер/экшен). */
                 $handler = $routeInfo[1];
                 /** @var array $vars Параметры запроса. */
                 $vars = $routeInfo[2];
@@ -103,7 +103,7 @@ class Application
     /**
      * Запустить экшен контроллера.
      * @internal
-     * @param array $handler Маршрут (контроллер/экшен).
+     * @param string $handler Маршрут (контроллер/экшен).
      * @param array $vars Параметры запроса.
      * @return string
      */
