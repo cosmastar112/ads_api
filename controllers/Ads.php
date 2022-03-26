@@ -13,20 +13,21 @@ use models\rep\AdRep;
 class Ads extends Controller
 {
     /**
-     * @var \PDO Экземпляр БД
+     * @internal Экземпляр БД.
+     * @var \PDO|null
      * @link https://www.php.net/manual/ru/book.pdo.php
      */
-    public $db;
+    private $_db = null;
 
     /**
      * @return \PDO Экземпляр БД.
      */
     public function getDb()
     {
-        if (!is_object($this->db)) {
-            $this->db = Application::getApp()->getDb();
+        if (!($this->_db instanceof \PDO)) {
+            $this->_db = Application::getApp()->getDb();
         }
-        return $this->db;
+        return $this->_db;
     }
 
     /**
