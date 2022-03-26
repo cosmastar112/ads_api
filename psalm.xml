@@ -15,4 +15,7 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <MoreSpecificImplementedParamType errorLevel="suppress" />
+    </issueHandlers>
 </psalm>
