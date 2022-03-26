@@ -19,10 +19,10 @@ class AdRep implements IRepository
      */
     public function __construct($db)
     {
-        $this->db = $db;
-        if (!is_object($this->db)) {
+        if (!($db instanceof \PDO)) {
             throw new \Exception('Не задан объект подключения к БД');
         }
+        $this->db = $db;
     }
 
     /**
