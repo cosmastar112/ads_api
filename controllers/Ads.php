@@ -41,9 +41,9 @@ class Ads extends Controller
 
         /** @var string|null Описание. */
         $text = $this->getPostBodyParam('text');
-        /** @var int|string|null Цена объявления. */
+        /** @var string|null Цена объявления. */
         $price = $this->getPostBodyParam('price');
-        /** @var int|string|null Кол-во показов. */
+        /** @var string|null Кол-во показов. */
         $limit = $this->getPostBodyParam('limit');
         /** @var string|null URL-адрес баннера (картинки). */
         $banner = $this->getPostBodyParam('banner');
@@ -102,13 +102,13 @@ class Ads extends Controller
     {
         header('Content-Type: application/json');
 
-        /** @var int|null Идентификатор. */
+        /** @var string|null Идентификатор. */
         $id = $this->getParam('id');
         /** @var string|null Описание. */
         $text = $this->getPostBodyParam('text');
-        /** @var int|string|null Цена объявления. */
+        /** @var string|null Цена объявления. */
         $price = $this->getPostBodyParam('price');
-        /** @var int|string|null Кол-во показов. */
+        /** @var string|null Кол-во показов. */
         $limit = $this->getPostBodyParam('limit');
         /** @var string|null URL-адрес баннера (картинки). */
         $banner = $this->getPostBodyParam('banner');
