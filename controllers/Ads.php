@@ -33,6 +33,7 @@ class Ads extends Controller
     /**
      * Создать рекламу (объявление)
      * @return string
+     * @throws \Exception Если возникла ошибка при подготовке ответа или сохранении данных.
      */
     public function create()
     {
@@ -59,13 +60,20 @@ class Ads extends Controller
                 'data' => [],
             ];
 
-            return json_encode($response);
+            /** @var string|false Закодированная JSON-строка. */
+            $result = json_encode($response);
+            if ($result === false) {
+                throw new \Exception("Ошибка при подготовке ответа");
+            }
+
+            return $result;
         }
 
         /** @var \models\rep\AdRep Репозиторий рекламы. */
         $rep = new AdRep($this->getDb());
         if ($rep->save($model)) {
-            return json_encode([
+            /** @var string|false Закодированная JSON-строка. */
+            $result = json_encode([
                 'message' => 'OK',
                 'code' => 200,
                 'data' => [
@@ -75,14 +83,20 @@ class Ads extends Controller
                     'banner' => $banner,
                 ]
             ]);
+            if ($result === false) {
+                throw new \Exception("Ошибка при подготовке ответа");
+            }
+
+            return $result;
         } else {
-            //TODO: ошибка операции
+            throw new \Exception("Ошибка при сохранении данных.");
         }
     }
 
     /**
      * Изменить рекламу (объявление)
      * @return string
+     * @throws \Exception Если возникла ошибка при подготовке ответа или сохранении данных.
      */
     public function update()
     {
@@ -111,13 +125,20 @@ class Ads extends Controller
                 'data' => [],
             ];
 
-            return json_encode($response);
+            /** @var string|false Закодированная JSON-строка. */
+            $result = json_encode($response);
+            if ($result === false) {
+                throw new \Exception("Ошибка при подготовке ответа");
+            }
+
+            return $result;
         }
 
         /** @var \models\rep\AdRep Репозиторий рекламы. */
         $rep = new AdRep($this->getDb());
         if ($rep->save($model)) {
-            return json_encode([
+            /** @var string|false Закодированная JSON-строка. */
+            $result = json_encode([
                 'message' => 'OK',
                 'code' => 200,
                 'data' => [
@@ -128,14 +149,20 @@ class Ads extends Controller
                     'banner' => $banner,
                 ]
             ]);
+            if ($result === false) {
+                throw new \Exception("Ошибка при подготовке ответа");
+            }
+
+            return $result;
         } else {
-            //TODO: ошибка операции
+            throw new \Exception("Ошибка при сохранении данных.");
         }
     }
 
     /**
      * Выбрать рекламу (объявление) для показа
      * @return string
+     * @throws \Exception Если возникла ошибка при подготовке ответа или сохранении данных.
      */
     public function relevant()
     {
@@ -146,7 +173,8 @@ class Ads extends Controller
         /** @var array|false Выбранная для показа модель рекламы. */
         $model = $rep->getRelevant();
         if ($model) {
-            return json_encode([
+            /** @var string|false Закодированная JSON-строка. */
+            $result = json_encode([
                 'message' => 'OK',
                 'code' => 200,
                 'data' => [
@@ -155,8 +183,13 @@ class Ads extends Controller
                     'banner' => $model['banner'],
                 ]
             ]);
+            if ($result === false) {
+                throw new \Exception("Ошибка при подготовке ответа");
+            }
+
+            return $result;
         } else {
-            //TODO: ошибка операции
+            throw new \Exception("Ошибка при загрузке данных.");
         }
     }
 }
