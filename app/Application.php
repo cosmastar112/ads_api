@@ -84,7 +84,7 @@ class Application
 
     /**
      * Обёртка для работы с БД.
-     * @return \app\Db
+     * @return \PDO
      */
     public function getDb()
     {
