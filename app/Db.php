@@ -10,11 +10,10 @@ use PDO;
 class Db
 {
     /**
-     * Соединение с БД.
-     * @internal
-     * @var \PDO
+     * @internal Соединение с БД.
+     * @var \PDO|null
      */
-    private $_instance;
+    private $_instance = null;
 
     /**
      * @param array $config Конфиг БД.
@@ -48,10 +47,15 @@ class Db
     /**
      * Соединение с БД.
      * @return \PDO
+     * @throws \Exception Если экземпляр соединения с БД не инициализирован.
      */
     public function getInstance()
     {
-       return $this->_instance;
+        if (is_null($this->_instance)) {
+            throw new \Exception('Экземпляр соединения с БД не инициализирован.');
+        }
+
+        return $this->_instance;
     }
 
     /**
