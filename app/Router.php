@@ -78,7 +78,7 @@ class Router
      * @internal
      * @param array $configGroupElements Элементы группы.
      * @see \app\Router::getDispatcher()
-     * @return closure
+     * @return callable
      */
     private function createGroupCallback($configGroupElements)
     {
