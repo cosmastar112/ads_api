@@ -34,13 +34,13 @@ class AdRep implements IRepository
         //если id записи не указан
         if (is_null($model->id)) {
             //создать запись
-            /** @var PDOStatement|false $st Подготовленный запрос к базе данных */
+            /** @var \PDOStatement|false $st Подготовленный запрос к базе данных */
             $st = $this->db->prepare('INSERT INTO ad(`text`, price, `limit`, banner) VALUES(:text, :price, :limit, :banner)');
             /** @var true|false $result Результат выполнения запроса к базе данных */
             $result = $st->execute([':text' => $model->text, ':price' => $model->price, ':limit' => $model->limit, ':banner' => $model->banner]);
         } else {
             //обновить запись
-            /** @var PDOStatement|false $st Подготовленный запрос к базе данных */
+            /** @var \PDOStatement|false $st Подготовленный запрос к базе данных */
             $st = $this->db->prepare('UPDATE ad SET `text` = :text, price = :price, `limit` = :limit, banner = :banner WHERE id = :id');
             /** @var true|false $result Результат выполнения запроса к базе данных */
             $result = $st->execute([':text' => $model->text, ':price' => $model->price, ':limit' => $model->limit, ':banner' => $model->banner, ':id' => $model->id]);
@@ -59,7 +59,7 @@ class AdRep implements IRepository
      */
     public function get($id)
     {
-        /** @var PDOStatement|false $st Подготовленный запрос к базе данных */
+        /** @var \PDOStatement|false $st Подготовленный запрос к базе данных */
         $st = $this->db->prepare('SELECT * FROM ad WHERE id = :id');
         //Запустить подготовленный запрос на выполнение
         $st->execute([':id' => $id]);
@@ -74,7 +74,7 @@ class AdRep implements IRepository
     public function getRelevant()
     {
         //выбрать записи с максимальной ценой (загрузить только id)
-        /** @var PDOStatement|false $st Подготовленный запрос к базе данных */
+        /** @var \PDOStatement|false $st Подготовленный запрос к базе данных */
         $st = $this->db->query('SELECT id FROM ad WHERE price = (SELECT MAX(price) FROM ad WHERE `limit` > 0)');
         /** @var array $rows Массив строк из набора результатов */
         $rows = $st->fetchAll(\PDO::FETCH_ASSOC);
@@ -103,7 +103,7 @@ class AdRep implements IRepository
     private function _decrementLimit($id)
     {
         //обновить запись
-        /** @var PDOStatement|false $st Подготовленный запрос к базе данных */
+        /** @var \PDOStatement|false $st Подготовленный запрос к базе данных */
         $st = $this->db->prepare('UPDATE ad SET `limit` = `limit` - 1 WHERE id = :id');
         /** @var true|false $result Результат выполнения запроса к базе данных */
         $result = $st->execute([':id' => $id]);
