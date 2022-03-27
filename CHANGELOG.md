@@ -1,5 +1,5 @@
 # История изменений Тестовое задание API Рекламы (ads_api)
-## 0.5.0 (В разработке)
+## 0.5.0 (27 Марта 2022)
 * Enc [#17](https://github.com/cosmastar112/ads_api/issues/17): Использование статического анализатора (Psalm)
 * Enc [#15](https://github.com/cosmastar112/ads_api/issues/15): Документирование кода (phpDocumentor)
 
