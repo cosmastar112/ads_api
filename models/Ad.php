@@ -7,19 +7,19 @@ namespace models;
  */
 class Ad
 {
-    /** @var null|int Идентификатор. Должен быть null при сохранении, но обязателен при обновлении. */
+    /** @var int|string|null Идентификатор. Должен быть null при сохранении, но обязателен при обновлении. */
     public $id;
 
-    /** @var string Описание. */
+    /** @var string|null Описание. */
     public $text;
 
-    /** @var int|string Цена объявления. */
+    /** @var int|string|null Цена объявления. */
     public $price;
 
-    /** @var int|string Кол-во показов. */
+    /** @var int|string|null Кол-во показов. */
     public $limit;
 
-    /** @var string URL-адрес баннера (картинки). */
+    /** @var string|null URL-адрес баннера (картинки). */
     public $banner;
 
     /** @var array Ошибки валидации. */
@@ -27,11 +27,11 @@ class Ad
 
     /**
      *
-     * @param null|int $id
-     * @param string $text
-     * @param int|string $price
-     * @param int|string $limit
-     * @param string $banner
+     * @param int|string|null $id
+     * @param string|null $text
+     * @param int|string|null $price
+     * @param int|string|null $limit
+     * @param string|null $banner
      */
     public function __construct($id, $text, $price, $limit, $banner)
     {
@@ -69,19 +69,19 @@ class Ad
      */
     public function validateCreate()
     {
-        if (empty($this->text) || !is_string($this->text)) {
+        if (!is_string($this->text) || $this->text === '') {
             array_push($this->errors, 'Invalid text');
         }
 
-        if (empty($this->price) || !is_numeric($this->price)) {
+        if (!is_numeric($this->price)) {
             array_push($this->errors, 'Invalid price');
         }
 
-        if (empty($this->limit) || !is_numeric($this->limit)) {
+        if (!is_numeric($this->limit)) {
             array_push($this->errors, 'Invalid limit');
         }
 
-        if (empty($this->banner) || !is_string($this->banner)) {
+        if (!is_string($this->banner) || $this->banner === '') {
             array_push($this->errors, 'Invalid banner link');
         }
     }

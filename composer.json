@@ -19,6 +19,7 @@
         "codeception/codeception": "^4.1",
         "codeception/module-asserts": "^2.0",
         "codeception/module-phpbrowser": "^2.0",
-        "codeception/module-db": "^2.0"
+        "codeception/module-db": "^2.0",
+        "vimeo/psalm": "4.21.0"
     }
 }

@@ -33,7 +33,7 @@ class Router
     {
         /** @var string $httpMethod Метод запроса. */
         $httpMethod = $_SERVER['REQUEST_METHOD'];
-        /** @var $uri Запрашиваемый путь. */
+        /** @var string $uri Запрашиваемый путь. */
         $uri = $this->getRequestedRoute();
         /** @var \FastRoute\Dispatcher Диспетчер. */
         $dispatcher = $this->getDispatcher();
@@ -78,7 +78,7 @@ class Router
      * @internal
      * @param array $configGroupElements Элементы группы.
      * @see \app\Router::getDispatcher()
-     * @return closure
+     * @return callable
      */
     private function createGroupCallback($configGroupElements)
     {

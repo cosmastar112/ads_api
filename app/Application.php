@@ -62,7 +62,7 @@ class Application
                 require './../errors/405.html';
                 break;
             case FastRoute\Dispatcher::FOUND:
-                /** @var array $handler Маршрут (контроллер/экшен). */
+                /** @var string $handler Маршрут (контроллер/экшен). */
                 $handler = $routeInfo[1];
                 /** @var array $vars Параметры запроса. */
                 $vars = $routeInfo[2];
@@ -84,7 +84,7 @@ class Application
 
     /**
      * Обёртка для работы с БД.
-     * @return \app\Db
+     * @return \PDO
      */
     public function getDb()
     {
@@ -103,9 +103,10 @@ class Application
     /**
      * Запустить экшен контроллера.
      * @internal
-     * @param array $handler Маршрут (контроллер/экшен).
+     * @param string $handler Маршрут (контроллер/экшен).
      * @param array $vars Параметры запроса.
      * @return string
+     * @throws \Exception Если файл контроллера не существует.
      */
     private function callContollerAction($handler, $vars)
     {
@@ -119,12 +120,17 @@ class Application
         $controllerClass = ucfirst($controller); /*сделать первый символ строки прописной*/
         /** @var string $controllerClassWithNamespace Наименование класса контроллера, включая пространство имён. */
         $controllerClassWithNamespace = '\controllers\\' . $controllerClass;
-        //вызвать обработчик маршрута (метод контроллера)
-        include './../controllers/' . $controllerClass . '.php';
+        $controllerClassFileName = './../controllers/' . $controllerClass . '.php';
+        if (file_exists($controllerClassFileName)) {
+            //подключить файл контроллера
+            include $controllerClassFileName;
+            /** @var \app\Controller $controller Объект указанного класса контроллера. */
+            $controllerObject = new $controllerClassWithNamespace($vars);
 
-        /** @var \app\Controller $controller Объект указанного класса контроллера. */
-        $controller = new $controllerClassWithNamespace($vars);
-
-        return $controller->runAction($action);
+            //вызвать обработчик маршрута (метод контроллера)
+            return $controllerObject->runAction($action);
+        } else {
+            throw new \Exception("Не удалось загрузить файл контроллера: {$controllerClassFileName}");
+        }
     }
 }
