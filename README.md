@@ -66,6 +66,10 @@ scripts\migrate-test.bat
 
 Для создания документации используется библиотека [phpDocumentor](https://docs.phpdoc.org/3.0/guide/getting-started/installing.html) v3.3.0. Запуск осуществляется с помощью [скрипта](https://github.com/cosmastar112/ads_api/tree/master/scripts/doc.bat). Результатом является HTML-документация в директории [docs/phpdoc](https://github.com/cosmastar112/ads_api/tree/master/docs/phpdoc).
 
+#### Статический анализатор
+
+Используется статический анализатор [Psalm](https://psalm.dev/). Для запуска предназначен [скрипт](https://github.com/cosmastar112/ads_api/blob/master/scripts/run-static-analysis-tool.bat).
+
 ## Описание проекта
 API состоит из элементов:
 * создание
@@ -216,8 +220,6 @@ Content-Type: application/json
 * Использовать библиотеки для решения задачи (с помощью composer):
   *	ORM для работы с БД
   *	Привести код к стандарту PSR-12
-* Задокументировать код
 * Написать тесты (как минимум, модульные)
 *	Развернуть в контейнере (Docker)
-* Использовать статический анализатор
 *	Новый алгоритм открутки
