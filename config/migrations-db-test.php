@@ -2,5 +2,5 @@
 
 return [
     'driver' => 'pdo_sqlite',
-    'path' => __DIR__ . '.\..\db\ads-test.db',
+    'path' => __DIR__ . './../db/ads-test.db',
 ];

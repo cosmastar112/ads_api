@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+$root_dir = __DIR__ . '/..';
+$documentorPath = $root_dir . '/docs/bin/phpDocumentor.phar';
+$appPath = $root_dir . '/app/';
+$controllersPath = $root_dir . '/controllers/';
+$modelsPath = $root_dir . '/models/';
+$phpdocPath = $root_dir . '/docs/phpdoc';
+$phpdocCachePath = $root_dir . '/docs/cache';
+
+$command = implode(' ', ['php', $documentorPath,
+	"-d {$appPath}", "-d {$controllersPath}", "-d {$modelsPath}",
+	"-t {$phpdocPath}",
+	"--cache-folder {$phpdocCachePath}"
+]);
+$output = shell_exec($command);
+echo $output;

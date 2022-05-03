@@ -1,11 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-$root_dir = __DIR__ . '\..';
-$configPath = $root_dir . '\config';
-$migrationsPath = $root_dir . '\vendor\bin\doctrine-migrations';
-$keyConfiguration = implode('', ['--configuration=', $configPath, '\migrations.php']);
-$keyDbConfiguration = implode('', ['--db-configuration=', $configPath, '\migrations-db.php']);
+$root_dir = __DIR__ . '/..';
+$configPath = $root_dir . '/config';
+$migrationsPath = $root_dir . '/vendor/bin/doctrine-migrations';
+$keyConfiguration = implode('', ['--configuration=', $configPath, '/migrations.php']);
+$keyDbConfiguration = implode('', ['--db-configuration=', $configPath, '/migrations-db.php']);
 
 $command = implode(' ', [$migrationsPath, 'migrate', $keyConfiguration, $keyDbConfiguration, '--no-interaction']);
 $output = shell_exec($command);

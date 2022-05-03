@@ -1,0 +1,5 @@
+#!/usr/bin/env php
+<?php
+
+$command = 'php ./../vendor/codeception/codeception/codecept run -c ./../codeception.yml unit';
+echo shell_exec($command);
