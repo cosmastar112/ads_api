@@ -1,59 +1,64 @@
 # Тестовое задание API Рекламы
 
-## Инструкция по разворачиванию проекта
-### PHP
-Использовался PHP 7.2.25.
+## Настройка окружения
+### Vagrant
+Для автоматизации настройки рабочего окружения используется [Vagrant](https://www.vagrantup.com/):
+~~~
+vagrant up
+~~~
 
-#### Расширения
-* [fileinfo](https://www.php.net/manual/ru/book.fileinfo.php) - для работы модуля создания документации phpDocumentor
+Основа - образ [Ubuntu 18.04](https://app.vagrantup.com/bento/boxes/ubuntu-18.04/versions/202112.19.0). В случае, если не удаётся автоматизировано загрузить образ (box) из репозитория, можно добавить его вручную ([файл образа](https://app.vagrantup.com/bento/boxes/ubuntu-18.04/versions/202112.19.0/providers/virtualbox.box)):
+~~~
+vagrant box add "bento/ubuntu-18.04" ./cf00babe-4123-4902-ad3a-c98f80de0e30
+~~~
 
-### СУБД
-В качестве рабочей БД по умолчанию используется [MySQL](https://github.com/cosmastar112/ads_api/blob/master/config/db-mysql.php), а для тестов – [SQLite](https://github.com/cosmastar112/ads_api/blob/master/config/db-sqlite.php).
+Изменить файл hosts: добавить строку "127.0.0.1    ads-api.loc" для доступа к приложению
 
-#### Рабочая БД (MySQL)
+### Windows (без виртуализации)
 
-_Примечание 1: используется СУБД MySQL 8.0.18._
+* Apache 2.4
+* PHP 7.2.25
+* MySQL для работы, SQLite3 для тестов
 
-_Примечание 2: используются данные из конфига [config/db-mysql.php](https://github.com/cosmastar112/ads_api/blob/master/config/db-mysql.php)_
+#### Структура БД
 
-Выполнить шаги:
-* Создать БД «ads»
+##### Рабочая БД (MySQL)
+Создать БД
 ~~~
 CREATE SCHEMA `ads` ;
 ~~~
-* Создать пользователя «ad-api» (в БД «ads»), выдать ему права на БД «ads»
+Создать пользователя "ad-api" (в БД "ads"), выдать ему права на БД "ads"
 ~~~
 CREATE USER 'ad-api'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL ON ads.* TO 'ad-api'@'localhost';
 ~~~
-* Применить миграции для БД «ads»
+Применить миграции для БД "ads"
 ~~~
-php <Директория проекта>\scripts\migrate-prod
+cd /d <Директория проекта>/scripts
+php migrate-prod
 ~~~
 или
 ~~~
-cd /d <Директория проекта>
-scripts\migrate-prod.bat
+<Директория проекта>/scripts/migrate-prod.bat
 подтвердить запуск миграций (WARNING библиотеки миграций)
 ~~~
 
-#### Тестовая БД (SQLite)
-_Примечание 1: используется СУБД SQLite 3.37.2 2022-01-06 13:25:41_
+##### Тестовая БД (SQLite)
+SQLite 3.37.2 2022-01-06 13:25:41
 
-_Примечание 2: используется данные из конфига [config/db-sqlite.php](https://github.com/cosmastar112/ads_api/blob/master/config/db-sqlite.php)_
-
-* Создать БД и применить миграции для «ads-test»
+Создать БД и применить миграции для "ads-test"
 ~~~
-php <Директория проекта>\scripts\migrate-test
+cd /d <Директория проекта>/scripts
+php migrate-test
 ~~~
 или
 ~~~
-cd /d <Директория проекта>
-scripts\migrate-test.bat
+<Директория проекта>/scripts/migrate-test.bat
 ~~~
 В результате в директории db появится файл БД ads-test.db. На существование файла БД [полагается модуль DB](https://github.com/cosmastar112/ads_api/blob/master/codeception.yml#L13) тестового фреймворка codeception.
 Для интерактивного взаимодействия с БД можно использовать [cmd-утилиту](https://github.com/cosmastar112/ads_api/blob/master/db/bin/sqlite3.exe).
 
+## Компоненты проекта
 ###	Миграции
 Используется библиотека миграций doctrine/migrations, конфигурируемая с помощью файлов:
 * [migrations.php](https://github.com/cosmastar112/ads_api/blob/master/config/migrations.php)
@@ -64,11 +69,76 @@ scripts\migrate-test.bat
 
 ### Документация
 
-Для создания документации используется библиотека [phpDocumentor](https://docs.phpdoc.org/3.0/guide/getting-started/installing.html) v3.3.0. Запуск осуществляется с помощью [скрипта](https://github.com/cosmastar112/ads_api/tree/master/scripts/doc.bat). Результатом является HTML-документация в директории [docs/phpdoc](https://github.com/cosmastar112/ads_api/tree/master/docs/phpdoc).
+Для создания документации используется библиотека [phpDocumentor](https://docs.phpdoc.org/3.0/guide/getting-started/installing.html) v3.3.0. Запуск:
+~~~
+Windows:
+cd /d <Директория проекта>
+php ./vendor/bin/phpDocumentor.phar <настройки>
+
+или
+
+<Директория проекта>/scripts/doc.bat
+
+или
+
+cd /d <Директория проекта>/scripts
+php doc
+
+Linux:
+cd /d <Директория проекта>
+php ./vendor/bin/phpDocumentor.phar <настройки>
+
+или
+
+cd <Директория проекта>/scripts
+php doc
+~~~
+Результатом является HTML-документация в директории [docs/phpdoc](https://github.com/cosmastar112/ads_api/tree/master/docs/phpdoc).
 
 #### Статический анализатор
 
-Используется статический анализатор [Psalm](https://psalm.dev/). Для запуска предназначен [скрипт](https://github.com/cosmastar112/ads_api/blob/master/scripts/run-static-analysis-tool.bat).
+Используется статический анализатор [Psalm](https://psalm.dev/). Запуск:
+~~~
+Windows:
+cd /d <Директория проекта>
+./vendor/bin/psalm <настройки>
+
+или
+
+cd /d <Директория проекта>/scripts
+run-static-analysis-tool.bat
+
+Linux:
+cd /d <Директория проекта>
+./vendor/bin/psalm <настройки>
+
+или
+
+cd <Директория проекта>/scripts
+run-static-analysis-tool.sh
+~~~
+
+#### Unit-тесты
+
+Используется [Codeception](https://codeception.com/). Запуск:
+~~~
+Windows:
+cd /d <Директория проекта>
+./vendor/codeception/codeception/codecept run unit
+
+или
+
+<Директория проекта>/scripts/doc.bat
+
+Linux:
+cd /d <Директория проекта>
+./vendor/codeception/codeception/codecept run unit
+
+или
+
+cd <Директория проекта>/scripts
+run-static-analysis-tool.sh
+~~~
 
 ## Описание проекта
 API состоит из элементов:
