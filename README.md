@@ -14,11 +14,38 @@ vagrant box add "bento/ubuntu-18.04" ./cf00babe-4123-4902-ad3a-c98f80de0e30
 
 Изменить файл hosts: добавить строку "127.0.0.1    ads-api.loc" для доступа к приложению
 
-### Windows (без виртуализации)
+### Windows (без Vagrant/Docker)
 
 * Apache 2.4
 * PHP 7.2.25
 * MySQL для работы, SQLite3 для тестов
+
+#### Apache
+
+Настройка виртуального хоста:
+
+1. Подключить конфиг виртуальных хостов к основному конфигу веб-сервера. Добавить в конфиг веб-сервера (<Директория Apache>/conf/httpd.conf):
+~~~
+# Virtual hosts
+Include conf/extra/httpd-vhosts.conf
+~~~
+
+2. Скопировать [конфиг](https://github.com/cosmastar112/ads_api/blob/master/apache/ads-api.loc.conf) виртуального хоста ads-api.loc в директорию (которую нужно создать) с виртуальными конфигами - <Директория Apache>/conf/extra/vh.
+
+3. Подключить конфиг виртуального хоста ads-api.loc в конфиге виртуальных хостов. Добавить в <Директория Apache>/conf/extra/httpd-vhosts.conf:
+~~~
+Include conf/extra/vh/ads-api.loc.conf
+~~~
+
+4. Создать ссылку на директорию web проекта в <Директория Apache>/htdocs. Воспользоваться утилитой [junction](https://github.com/cosmastar112/ads_api/blob/master/apache/junction64.exe):
+~~~
+<Директория проекта>\apache\junction64.exe <Директория Apache>\htdocs\ads-api.loc <Директория проекта>\web
+~~~
+
+5. Добавить в файл <Директория Windows>\System32\drivers\etc\hosts связь IP-адреса с именем хоста:
+~~~
+127.0.0.1    ads-api.loc
+~~~
 
 #### Структура БД
 
