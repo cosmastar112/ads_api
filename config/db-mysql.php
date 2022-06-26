@@ -2,7 +2,7 @@
 
 return [
     'driver' => 'mysql',
-    'host' => 'localhost',
+    'host' => 'db',
     'dbname' => 'ads',
     'username' => 'ad-api',
     'password' => 'password',

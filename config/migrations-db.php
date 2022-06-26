@@ -4,6 +4,6 @@ return [
     'dbname' => 'ads',
     'user' => 'ad-api',
     'password' => 'password',
-    'host' => 'localhost',
+    'host' => 'db',
     'driver' => 'pdo_mysql',
 ];
