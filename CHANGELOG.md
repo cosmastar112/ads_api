@@ -1,5 +1,5 @@
 # История изменений Тестовое задание API Рекламы (ads_api)
-## 0.7.0 (В разработке)
+## 0.7.0 (26 Июня 2022)
 * Enc [#22](https://github.com/cosmastar112/ads_api/issues/22): Удаление сгенерированной документации
 * Enc [#20](https://github.com/cosmastar112/ads_api/issues/20): Использование Docker для автоматизации настройки окружения для разработки
 * Enc [#24](https://github.com/cosmastar112/ads_api/issues/24): Документация: настройка виртуального хоста Apache
