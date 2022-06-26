@@ -1,18 +1,38 @@
 # Тестовое задание API Рекламы
 
 ## Настройка окружения
+### Docker
+Развернуть приложение:
+~~~
+docker-compose up --build
+~~~
+
+Применить миграции:
+~~~
+docker-compose exec app php ./scripts/migrate-prod
+docker-compose exec app php ./scripts/migrate-test
+~~~
+
+Добавить в файл <Директория Windows>\System32\drivers\etc\hosts связь IP-адреса с именем хоста:
+~~~
+127.0.0.1    ads-api.loc
+~~~
+
 ### Vagrant
 Для автоматизации настройки рабочего окружения используется [Vagrant](https://www.vagrantup.com/):
 ~~~
 vagrant up
 ~~~
 
+Добавить в файл <Директория Windows>\System32\drivers\etc\hosts связь IP-адреса с именем хоста:
+~~~
+127.0.0.1    ads-api.loc
+~~~
+
 Основа - образ [Ubuntu 18.04](https://app.vagrantup.com/bento/boxes/ubuntu-18.04/versions/202112.19.0). В случае, если не удаётся автоматизировано загрузить образ (box) из репозитория, можно добавить его вручную ([файл образа](https://app.vagrantup.com/bento/boxes/ubuntu-18.04/versions/202112.19.0/providers/virtualbox.box)):
 ~~~
 vagrant box add "bento/ubuntu-18.04" ./cf00babe-4123-4902-ad3a-c98f80de0e30
 ~~~
-
-Изменить файл hosts: добавить строку "127.0.0.1    ads-api.loc" для доступа к приложению
 
 ### Windows (без Vagrant/Docker)
 
@@ -45,6 +65,7 @@ Include conf/extra/vh/ads-api.loc.conf
 5. Добавить в файл <Директория Windows>\System32\drivers\etc\hosts связь IP-адреса с именем хоста:
 ~~~
 127.0.0.1    ads-api.loc
+127.0.0.1    db
 ~~~
 
 #### Структура БД
@@ -318,5 +339,4 @@ Content-Type: application/json
   *	ORM для работы с БД
   *	Привести код к стандарту PSR-12
 * Написать тесты (как минимум, модульные)
-*	Развернуть в контейнере (Docker)
 *	Новый алгоритм открутки

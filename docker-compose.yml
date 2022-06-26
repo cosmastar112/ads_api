@@ -1,0 +1,29 @@
+services:
+  app:
+    container_name: ads_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+  db:
+    container_name: db
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: ads
+      MYSQL_USER: ad-api
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysqldb-volume:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysqldb-volume:

@@ -23,6 +23,7 @@ apt -y install git mysql-server sqlite3
 #2. Конфигурирование
 #Настроить доступность виртуального хоста по имени
 echo '127.0.0.1 ads-api.loc' | tee -a /etc/hosts
+echo '127.0.0.1 db' | tee -a /etc/hosts
 #Создать в корневой директории сервера символическую ссылку на директорию проекта
 ln -s /app/web /var/www/ads-api.loc
 #Создать конфиг виртуального хоста
