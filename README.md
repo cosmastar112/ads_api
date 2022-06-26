@@ -106,6 +106,23 @@ php migrate-test
 В результате в директории db появится файл БД ads-test.db. На существование файла БД [полагается модуль DB](https://github.com/cosmastar112/ads_api/blob/master/codeception.yml#L13) тестового фреймворка codeception.
 Для интерактивного взаимодействия с БД можно использовать [cmd-утилиту](https://github.com/cosmastar112/ads_api/blob/master/db/bin/sqlite3.exe).
 
+## Использование (на примере curl)
+
+### Создание
+~~~
+curl -X POST http://ads-api.loc:8080/index.php/ads -d "text=Advertisement1&price=300&limit=1000&banner=https://linktoimage.png"
+~~~
+
+### Редактирование
+~~~
+curl -X POST http://ads-api.loc:8080/index.php/ads/1 -d "text=Advertisement2&price=500&limit=800&banner=https://anotherlinktoimage.png"
+~~~
+
+### Открутка
+~~~
+curl http://ads-api.loc:8080/index.php/ads/relevant
+~~~
+
 ## Компоненты проекта
 ###	Миграции
 Используется библиотека миграций doctrine/migrations, конфигурируемая с помощью файлов:
